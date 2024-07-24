@@ -1,0 +1,32 @@
+fea_dir: "/data/lmorove1/hwang258/dataspeech/hubert_features"
+caption_train_cache_dir: "/data/lmorove1/hwang258/sc/Speech-Captioning-Dataset/cache/out/gigaspeech-tiny-train"
+caption_val_cache_dir: "/data/lmorove1/hwang258/sc/Speech-Captioning-Dataset/cache/out/gigaspeech-tiny-train"
+caption_test_cache_dir: "/data/lmorove1/hwang258/sc/Speech-Captioning-Dataset/cache/out/gigaspeech-tiny-train"
+
+# size of vit model; base or large
+
+pretrained: '/data/lmorove1/hwang258/BLIP/output/pretrain/checkpoint_09.pth'
+input_dim: 25600
+hidden_dim: 512
+kernel_size: 5
+padding: 2
+pooling: 5
+dropout: 0.4
+audio_width: 512
+
+batch_size_train: 5
+batch_size_test: 10
+vit_grad_ckpt: True
+vit_ckpt_layer: 4
+init_lr: 1e-5
+
+queue_size: 57600
+alpha: 0.4
+k_test: 4
+negative_all_rank: False
+
+# optimizer
+weight_decay: 0.05
+min_lr: 0
+max_epoch: 6
+

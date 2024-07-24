@@ -1,0 +1,31 @@
+fea_dir: "/data/lmorove1/hwang258/dataspeech/hubert_features"
+caption_train_cache_dir: "/data/lmorove1/hwang258/sc/Speech-Captioning-Dataset/cache/out/gigaspeech-tiny-train"
+caption_val_cache_dir: "/data/lmorove1/hwang258/sc/Speech-Captioning-Dataset/cache/out/gigaspeech-tiny-train"
+caption_test_cache_dir: "/data/lmorove1/hwang258/sc/Speech-Captioning-Dataset/cache/out/gigaspeech-tiny-train"
+
+
+# set pretrained as a file path or an url
+pretrained: '/data/lmorove1/hwang258/BLIP/output/pretrain/checkpoint_09.pth'
+
+# size of vit model; base or large
+input_dim: 25600
+hidden_dim: 512
+kernel_size: 5
+padding: 2
+pooling: 5
+dropout: 0.4
+audio_width: 512
+
+# generation configs
+max_length: 60  
+min_length: 15
+num_beams: 3
+prompt: 'The description of this speech is: '
+
+# optimizer
+weight_decay: 0.05
+min_lr: 1e-07
+max_epoch: 5
+batch_size: 5
+init_lr: 3e-05
+
