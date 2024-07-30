@@ -37,7 +37,7 @@ if __name__ == "__main__":
     parser.add_argument("--cache_dir", default="/data/lmorove1/hwang258/sc/Speech-Captioning-Dataset/cache/out/gigaspeech-tiny-train", type=str, help="Cache dir to download data")
     parser.add_argument("--output_dir", default="/data/lmorove1/hwang258/dataspeech/hubert_features", type=str, help="If specified, save the dataset on disk with this path.")
     parser.add_argument("--target_length", default=5, type=float)
-    parser.add_argument("--batch_size", default=64, type=int)
+    parser.add_argument("--batch_size", default=128, type=int)
     
     args = parser.parse_args()
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -52,26 +52,19 @@ if __name__ == "__main__":
     model = hubert_model[0].to(device)
     model.eval()
 
-    # Use DataParallel for multi-GPU support
-    if torch.cuda.device_count() > 1:
-        print(f"Using {torch.cuda.device_count()} GPUs")
-        model = torch.nn.DataParallel(model)
-
     os.makedirs(args.output_dir, exist_ok=True)
 
     dataset = load_from_disk(args.cache_dir)
     streaming_audio_dataset = StreamingAudioDataset(dataset, args.target_length)
-    
-    # Extend dataset
-    extended_dataset = torch.utils.data.ConcatDataset([streaming_audio_dataset] * 100)
+    # streaming_audio_dataset = torch.utils.data.ConcatDataset([streaming_audio_dataset] * 100)
     
     # Increase number of workers and pin memory
-    dataloader = DataLoader(extended_dataset, batch_size=args.batch_size, num_workers=8, pin_memory=True, prefetch_factor=2)
+    dataloader = DataLoader(streaming_audio_dataset, batch_size=args.batch_size, num_workers=16, pin_memory=True, prefetch_factor= 4)
 
     with torch.no_grad():
         for batch in tqdm(dataloader):
             audio = batch['audio'].to(device, non_blocking=True)
-            features = model.module.extract_features(audio, padding_mask=None)
+            features = model.extract_features(audio, padding_mask=None)
             reps = features[0].cpu()
             
             for idx, segment_id in enumerate(batch['segment_id']):
