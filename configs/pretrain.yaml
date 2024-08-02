@@ -12,9 +12,9 @@ pooling: 5
 dropout: 0.4
 audio_width: 512
 
-batch_size: 5
+batch_size: 75
 
-queue_size: 2000
+queue_size: 57600
 alpha: 0.4
 
 # optimizer
@@ -23,8 +23,8 @@ init_lr: 3e-4
 min_lr: 1e-6
 warmup_lr: 1e-6
 lr_decay_rate: 0.9
-max_epoch: 10
-warmup_steps: 30
+max_epoch: 20
+warmup_steps: 3000
 
 
 
