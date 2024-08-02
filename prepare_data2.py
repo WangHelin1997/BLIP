@@ -7,6 +7,7 @@ import os
 import fairseq
 import glob
 import librosa
+import numpy as np
 
 sr = 16000
 
@@ -63,7 +64,7 @@ if __name__ == "__main__":
     os.makedirs(args.output_dir, exist_ok=True)
 
     streaming_audio_dataset = StreamingAudioDataset(args.wav_dir, args.start, args.end, args.target_length)
-    streaming_audio_dataset = torch.utils.data.ConcatDataset([streaming_audio_dataset] * 400)
+    # streaming_audio_dataset = torch.utils.data.ConcatDataset([streaming_audio_dataset] * 400)
     
     # Increase number of workers and pin memory
     dataloader = DataLoader(streaming_audio_dataset, batch_size=args.batch_size, num_workers=16, pin_memory=True, prefetch_factor= 4)
@@ -75,4 +76,5 @@ if __name__ == "__main__":
             reps = features[0].cpu()
             
             for idx, segment_id in enumerate(batch['segment_id']):
-                torch.save(reps[idx], os.path.join(args.output_dir, segment_id+'.pt'))
+                # torch.save(reps[idx], os.path.join(args.output_dir, segment_id+'.pt'))
+                np.savez_compressed(os.path.join(args.output_dir, segment_id+'.npz'), reps[idx].numpy())
