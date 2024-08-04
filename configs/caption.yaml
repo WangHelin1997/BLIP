@@ -5,16 +5,16 @@ caption_test_cache_dir: "/data/lmorove1/hwang258/sc/Speech-Captioning-Dataset/ca
 
 
 # set pretrained as a file path or an url
-pretrained: '/data/lmorove1/hwang258/BLIP/output/pretrain/checkpoint_09.pth'
+pretrained: '/data/lmorove1/hwang258/sc/BLIP/output/pretrain/checkpoint_13.pth'
 
 # size of vit model; base or large
-input_dim: 25600
+input_dim: 1024
 hidden_dim: 512
 kernel_size: 5
 padding: 2
 pooling: 5
 dropout: 0.4
-audio_width: 512
+audio_width: 768
 
 # generation configs
 max_length: 60  
@@ -28,4 +28,3 @@ min_lr: 1e-07
 max_epoch: 5
 batch_size: 128
 init_lr: 4e-05
-
