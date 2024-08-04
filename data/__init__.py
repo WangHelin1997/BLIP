@@ -9,7 +9,8 @@ def create_dataset(dataset, config):
     if dataset=='pretrain':
         # hf_dataset = load_dataset(config['dataset_name'], config['configuration'], cache_dir=config['cache_dir'])
         hf_dataset = load_from_disk(config['pretrain_cache_dir'])
-        dataset = GigaSpeech(hf_dataset, config['fea_dir'])              
+        dataset = GigaSpeech(hf_dataset, config['fea_dir'])   
+
         return dataset  
     
     elif dataset=='caption':   
@@ -56,4 +57,3 @@ def create_loader(datasets, samplers, batch_size, num_workers, is_trains, collat
         )              
         loaders.append(loader)
     return loaders    
-
