@@ -8,7 +8,7 @@
 import warnings
 warnings.filterwarnings("ignore")
 
-from models.vit import VisionTransformer, interpolate_pos_embed
+# from models.vit import VisionTransformer, interpolate_pos_embed
 from models.med import BertConfig, BertModel, BertLMHeadModel
 from transformers import BertTokenizer
 
