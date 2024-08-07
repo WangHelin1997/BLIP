@@ -30,7 +30,8 @@ class GigaSpeech(Dataset):
         caption = self.dataset["text_description"+str(tag)][index]
         caption = self.clean(caption)
         caption = pre_caption(caption, self.max_words)
-        hubert_fea = torch.from_numpy(np.load(os.path.join(self.fea_dir, segment_id+'.npz'))['arr_0'])
+        # hubert_fea = torch.from_numpy(np.load(os.path.join(self.fea_dir, segment_id+'.npz'))['arr_0'])
+        hubert_fea = torch.from_numpy(self.fea_dir[segment_id][:])
         return segment_id, hubert_fea, caption
 
 if __name__ == '__main__':
@@ -40,3 +41,4 @@ if __name__ == '__main__':
     dataset = GigaSpeech(hf_dataset, fea_dir)
     print(len(dataset))
     print(dataset[4])
+
