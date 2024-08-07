@@ -8,6 +8,7 @@ import glob
 import torch
 import numpy as np
 
+
 class GigaSpeech_train(Dataset):
     def __init__(self, hf_dataset, fea_dir, max_words=50):
         self.dataset = hf_dataset
@@ -37,7 +38,8 @@ class GigaSpeech_train(Dataset):
         caption = self.dataset["text_description"+str(tag)][index]
         caption = self.clean(caption)
         caption = pre_caption(caption, self.max_words)
-        hubert_fea = torch.from_numpy(np.load(os.path.join(self.fea_dir, segment_id+'.npz'))['arr_0'])
+        # hubert_fea = torch.from_numpy(np.load(os.path.join(self.fea_dir, segment_id+'.npz'))['arr_0'])
+        hubert_fea = torch.from_numpy(self.fea_dir[segment_id][:])
         return hubert_fea, caption, self.audio_ids[segment_id] 
     
 class GigaSpeech_caption_eval(Dataset):
@@ -62,7 +64,8 @@ class GigaSpeech_caption_eval(Dataset):
         caption = self.dataset["text_description"+str(tag)][index]
         caption = self.clean(caption)
         caption = pre_caption(caption, self.max_words)
-        hubert_fea = torch.from_numpy(np.load(os.path.join(self.fea_dir, segment_id+'.npz'))['arr_0'])
+        # hubert_fea = torch.from_numpy(np.load(os.path.join(self.fea_dir, segment_id+'.npz'))['arr_0'])
+        hubert_fea = torch.from_numpy(self.fea_dir[segment_id][:])
         return hubert_fea, segment_id
     
     
@@ -103,6 +106,7 @@ class GigaSpeech_retrieval_eval(Dataset):
     def __getitem__(self, index):    
         
         segment_id = self.dataset["segment_id"][index]
-        hubert_fea = torch.from_numpy(np.load(os.path.join(self.fea_dir, segment_id+'.npz'))['arr_0'])
+        # hubert_fea = torch.from_numpy(np.load(os.path.join(self.fea_dir, segment_id+'.npz'))['arr_0'])
+        hubert_fea = torch.from_numpy(self.fea_dir[segment_id][:])
         
         return hubert_fea, index
