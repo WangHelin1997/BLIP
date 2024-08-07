@@ -1,4 +1,5 @@
-fea_dir: "/data/lmorove1/hwang258/dataspeech/hubert_features"
+# fea_dir: "/data/lmorove1/hwang258/dataspeech/hubert_features"
+fea_dir: "/data/lmorove1/hwang258/dataspeech/hubert_features.h5"
 caption_train_cache_dir: "/data/lmorove1/hwang258/sc/Speech-Captioning-Dataset/cache/out/gigaspeech-tiny-train"
 caption_val_cache_dir: "/data/lmorove1/hwang258/sc/Speech-Captioning-Dataset/cache/out/gigaspeech-tiny-train"
 caption_test_cache_dir: "/data/lmorove1/hwang258/sc/Speech-Captioning-Dataset/cache/out/gigaspeech-tiny-train"
