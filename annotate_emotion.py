@@ -1,3 +1,4 @@
+# pip install -U funasr
 from funasr import AutoModel
 import argparse
 import os
