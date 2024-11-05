@@ -47,8 +47,7 @@ if __name__ == "__main__":
 
     hf_dataset = load_from_disk(args.cache_dir)
     save_list = []
-    # for index in tqdm(range(len(hf_dataset))):
-    for index in tqdm(range(50)):
+    for index in tqdm(range(len(hf_dataset))):
         segment_id = hf_dataset["segment_id"][index]
         wav_path = os.path.join(args.wav_dir, segment_id+'.wav')
         if os.path.exists(wav_path):
