@@ -7,7 +7,7 @@ save_dir = "/data/lmorove1/hwang258/sc/Speech-Captioning-Dataset/cache/out/gigas
 savenames = []
 with open(target_path, 'r') as file:
     for line in file:
-        savenames.append(line.strip())
+        savenames.append(line.split('\t')[0])
         
 hf_dataset = load_from_disk(cache_dir)
 filtered_dataset = hf_dataset.filter(lambda example: example['segment_id'] in savenames)
