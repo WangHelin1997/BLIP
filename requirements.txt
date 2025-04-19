@@ -3,3 +3,5 @@ transformers==4.15.0
 fairscale==0.4.4
 pycocoevalcap
 ruamel.yaml<0.18.0
+datasets
+fairseq

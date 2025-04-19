@@ -1,38 +1,28 @@
 import torch
 from torch.utils.data import DataLoader
 from datasets import load_dataset, load_from_disk
-from data.pretrain_dataset import GigaSpeech
-from data.gigaspeech_dataset import GigaSpeech_train, GigaSpeech_caption_eval, GigaSpeech_retrieval_eval
-import h5py
+from data.pretrain_dataset import Speech_Pretrain
+from data.speech_dataset import Speech_train, Speech_caption_eval, Speech_retrieval_eval
 
-def create_dataset(dataset, config): 
-    features = h5py.File(config['fea_dir'], 'r')
-    
+def create_dataset(dataset, config):     
     if dataset=='pretrain':
-        hf_dataset = load_from_disk(config['pretrain_cache_dir'])
-        # dataset = GigaSpeech(hf_dataset, config['fea_dir']) 
-        dataset = GigaSpeech(hf_dataset, features) 
-        # dataset = torch.utils.data.ConcatDataset([dataset] * 40000)
+        hf_dataset = load_dataset(config["dataset_name"])["val"]
+        dataset = Speech_Pretrain(hf_dataset, config, max_words=config["max_words"]) 
 
         return dataset  
     
-    elif dataset=='caption':   
-        # train_dataset = GigaSpeech_train(load_from_disk(config['caption_train_cache_dir']), config['fea_dir']) 
-        # val_dataset = GigaSpeech_caption_eval(load_from_disk(config['caption_val_cache_dir']), config['fea_dir']) 
-        # test_dataset = GigaSpeech_caption_eval(load_from_disk(config['caption_test_cache_dir']), config['fea_dir'])    
-        train_dataset = GigaSpeech_train(load_from_disk(config['caption_train_cache_dir']), features) 
-        val_dataset = GigaSpeech_caption_eval(load_from_disk(config['caption_val_cache_dir']), features) 
-        test_dataset = GigaSpeech_caption_eval(load_from_disk(config['caption_test_cache_dir']), features)    
+    elif dataset=='caption':     
+        hf_dataset = load_dataset(config["dataset_name"])
+        train_dataset = Speech_train(hf_dataset["train"], config, max_words=config["max_words"]) 
+        val_dataset = Speech_caption_eval(hf_dataset["val"], config, max_words=config["max_words"]) 
+        test_dataset = Speech_caption_eval(hf_dataset["test"], config, max_words=config["max_words"])    
         
         return train_dataset, val_dataset, test_dataset 
         
     elif dataset=='retrieval': 
-        # train_dataset = GigaSpeech_train(load_from_disk(config['caption_train_cache_dir']), config['fea_dir']) 
-        # val_dataset = GigaSpeech_retrieval_eval(load_from_disk(config['caption_val_cache_dir']), config['fea_dir']) 
-        # test_dataset = GigaSpeech_retrieval_eval(load_from_disk(config['caption_test_cache_dir']), config['fea_dir'])  
-        train_dataset = GigaSpeech_train(load_from_disk(config['caption_train_cache_dir']), features) 
-        val_dataset = GigaSpeech_retrieval_eval(load_from_disk(config['caption_val_cache_dir']), features) 
-        test_dataset = GigaSpeech_retrieval_eval(load_from_disk(config['caption_test_cache_dir']), features)  
+        train_dataset = Speech_train(hf_dataset["train"], config, max_words=config["max_words"]) 
+        val_dataset = Speech_retrieval_eval(hf_dataset["val"], config, max_words=config["max_words"]) 
+        test_dataset = Speech_retrieval_eval(hf_dataset["test"], config, max_words=config["max_words"])  
         
         return train_dataset, val_dataset, test_dataset 
     

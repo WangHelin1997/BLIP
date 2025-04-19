@@ -1,5 +1,5 @@
 import torch
-from datasets import load_dataset, load_from_disk
+# from datasets import load_dataset, load_from_disk
 import argparse
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
@@ -41,12 +41,12 @@ class StreamingAudioDataset(Dataset):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--wav_dir", default="/data/lmorove1/hwang258/dataspeech/cache/audios/", type=str, help="dir saved wavform")
-    parser.add_argument("--output_dir", default="/data/lmorove1/hwang258/dataspeech/hubert_features", type=str, help="If specified, save the dataset on disk with this path.")
-    parser.add_argument("--target_length", default=5, type=float)
+    parser.add_argument("--wav_dir", default="/export/corpora7/CapSpeech-real/audios/", type=str, help="dir saved wavform")
+    parser.add_argument("--output_dir", default="/export/corpora7/CapSpeech-real/hubert_features", type=str, help="If specified, save the dataset on disk with this path.")
+    parser.add_argument("--target_length", default=10, type=float)
     parser.add_argument("--batch_size", default=128, type=int)
     parser.add_argument("--start", default=0, type=int)
-    parser.add_argument("--end", default=3, type=int)
+    parser.add_argument("--end", default=1000000, type=int)
     
     args = parser.parse_args()
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -64,10 +64,9 @@ if __name__ == "__main__":
     os.makedirs(args.output_dir, exist_ok=True)
 
     streaming_audio_dataset = StreamingAudioDataset(args.wav_dir, args.start, args.end, args.target_length)
-    # streaming_audio_dataset = torch.utils.data.ConcatDataset([streaming_audio_dataset] * 400)
     
     # Increase number of workers and pin memory
-    dataloader = DataLoader(streaming_audio_dataset, batch_size=args.batch_size, num_workers=16, pin_memory=True, prefetch_factor= 4)
+    dataloader = DataLoader(streaming_audio_dataset, batch_size=args.batch_size, num_workers=16, pin_memory=True, prefetch_factor=4)
 
     with torch.no_grad():
         for batch in tqdm(dataloader):

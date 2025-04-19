@@ -71,7 +71,8 @@ class BLIP_Pretrain(nn.Module):
             output_dim=audio_width
         )           
         self.audio_proj_m = nn.Linear(audio_width, embed_dim)
-        self.text_encoder_m = BertModel(config=encoder_config, add_pooling_layer=False)      
+        self.text_encoder_m = BertModel(config=encoder_config, add_pooling_layer=False) 
+        self.text_encoder_m.resize_token_embeddings(len(self.tokenizer))      
         self.text_proj_m = nn.Linear(text_width, embed_dim)
         
         self.model_pairs = [[self.audio_encoder,self.audio_encoder_m],

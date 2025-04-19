@@ -1,8 +1,7 @@
-# dataset_name: "westbrook/gigaspeech-tiny-stage4"
-# configuration: "default"  
-pretrain_cache_dir: "/data/lmorove1/hwang258/sc/Speech-Captioning-Dataset/cache/out/gigaspeech-tiny-train"
-# fea_dir: "/data/lmorove1/hwang258/dataspeech/hubert_features"
-fea_dir: "/data/lmorove1/hwang258/dataspeech/hubert_features.h5"
+dataset_name: OpenSound/CapSpeech-RealSets
+max_words: 100
+librittsr_dir: /export/corpora7/CapSpeech-real/LibriTTS_R_hubert_features
+other_dir: /export/corpora7/CapSpeech-real/hubert_features
 
 # size of vit model; base or large
 input_dim: 1024
