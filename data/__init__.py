@@ -6,7 +6,7 @@ from data.speech_dataset import Speech_train, Speech_caption_eval, Speech_retrie
 
 def create_dataset(dataset, config):     
     if dataset=='pretrain':
-        hf_dataset = load_dataset(config["dataset_name"])["val"]
+        hf_dataset = load_dataset(config["dataset_name"])["train"]
         dataset = Speech_Pretrain(hf_dataset, config, max_words=config["max_words"]) 
 
         return dataset  
